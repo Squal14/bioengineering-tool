@@ -1,0 +1,58 @@
+/* 1. EL FONDO DE LA INTERFAZ (Aplica a todas las ventanas) */
+QWidget {
+            background-color: #1e1e2e; /* Base */
+            color: #cdd6f4;            /* Text */
+            font-size: 12pt;           /* Tamaño de letra un poco más grande */
+        }
+
+/* 2. EL ESTILO DE LOS BOTONES */
+QPushButton {
+            background-color: #cba6f7; /* Mauve */
+            color: #11111b;              /* Crust */
+            border: none;              /* Sin borde feo por defecto */
+            border-radius: 6px;        /* Bordes suavemente redondeados */
+            padding: 10px 20px;        /* Botón más alto y ancho */
+            font-weight: bold;         /* Letra negrita */
+        }
+
+/* 3. EFECTO AL PASAR EL RATÓN (Hover) */
+QPushButton:hover {
+            background-color: #b4befe; /* Lavender */
+        }
+
+/* 4. EFECTO AL HACER CLIC (Pressed) */
+QPushButton:pressed {
+            background-color: #89b4fa; /* Blue */
+        }
+
+/* 5. LAS CAJAS DE NÚMEROS (Para que hagan juego) */
+QDoubleSpinBox {
+            background-color: #181825; /* Mantle */
+            border: 1px solid #313244; /* Surface0 */
+            border-radius: 12px;
+            padding: 5px;
+            padding-right: 25px;
+            color: #cdd6f4 /* Text */
+        }
+        
+/* 6. Estilizar el contenedor */
+QGroupBox {
+            border: 1px solid #45475a; /* Surface1 */
+            border-radius: 15px; /* Bordes redondeados */
+            margin-top: 14px; /* Da espacio arriba para que entre el título */
+        }
+
+/* 7. Estilizar el título del contenedor */
+QGroupBox::title {
+            subcontrol-origin: margin;
+            subcontrol-position: margin;
+            left: 0px; /* Lo empuja un poco a la derecha */
+            padding: 0 5px; /* Un pequeño margen alrededor del texto */
+            color: #89b4fa; /* Blue */
+            font-weight: bold
+        }
+
+/* 8. Estilizar los textos (Etiquetas) */
+QLabel {
+            color: #cdd6f4 /* Text */
+        }

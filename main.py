@@ -1,5 +1,7 @@
 import sys
 from PySide6.QtWidgets import QApplication, QMainWindow
+from PySide6.QtGui import QFontDatabase
+from PySide6.QtCore import Qt 
 
 #Se debe asegurar que python esté corriendo en la carpeta del proyecto. 
 
@@ -34,76 +36,45 @@ class BioreactorSimulatorApp(QMainWindow):
             print(f"{clave}: {valor}")
         print("--------------------------------\n")
 
-if __name__=="__main__":
-    #Se crea la hoja de estilo catppuccin mocha(QSS)
-    estilo_catppuccin_mocha = """
-        /* 1. EL FONDO DE LA INTERFAZ (Aplica a todas las ventanas) */
-        QWidget {
-            background-color: #1e1e2e; /* Base */
-            color: #cdd6f4;            /* Text */
-            font-size: 12pt;           /* Tamaño de letra un poco más grande */
-        }
 
-        /* 2. EL ESTILO DE LOS BOTONES */
-        QPushButton {
-            background-color: #181825; /* Mantle */
-            color: #cdd6f4;              /* Text */
-            border: none;              /* Sin borde feo por defecto */
-            border-radius: 6px;        /* Bordes suavemente redondeados */
-            padding: 10px 20px;        /* Botón más alto y ancho */
-            font-weight: bold;         /* Letra negrita */
-        }
+def aplicar_tema_sistema(app, ventana=None):
+        """Detectamos el tema de Windows y cargar el archivo QSS correspondiente"""
+        #1. Leer el esquema de color del sistema operativo
+        esquema_sistema = app.styleHints().colorScheme()
+        modo_oscuro = (esquema_sistema == Qt.ColorScheme.Dark)
 
-        /* 3. EFECTO AL PASAR EL RATÓN (Hover) */
-        QPushButton:hover {
-            background-color: #45475a; /* Surface 1 */
-        }
-
-        /* 4. EFECTO AL HACER CLIC (Pressed) */
-        QPushButton:pressed {
-            background-color: #11111b; /* Crust */
-        }
-
-        /* 5. LAS CAJAS DE NÚMEROS (Para que hagan juego) */
-        QDoubleSpinBox {
-            background-color: #181825; /* Mantle */
-            border: 1px solid #cba6f7; /* Mauve */
-            border-radius: 12px;
-            padding: 5px;
-            padding-right: 25px;
-        }
+        #2. Elegimos la ruta del archivo
+        if esquema_sistema == Qt.ColorScheme.Dark:
+            ruta_qss = "assets/themes/dark_mocha.qss"
+            print("[Tema] Widnows está en modo oscuro. Aplicando Catpuccin Mocha.")
+        else:
+            ruta_qss = "assets/themes/light_latte.qss"
+            print("[Tema] Windows está en modo claro. Aplicando Catpuccin Latte.")
         
-        /* 6. Estilizar el contenedor */
-        QGroupBox {
-            border: 1px solid #cdd6f4; /* Text */
-            border-radius: 15px; /* Bordes redondeados */
-            margin-top: 14px; /* Da espacio arriba para que entre el título */
-        }
+        #3. Leemos el arcvhivo y lo aplicamos.
+        try:
+            with open(ruta_qss, "r", encoding="utf-8") as archivo:
+                app.setStyleSheet(archivo.read())
+        except FileNotFoundError:
+            print(f"Error: No se encontró el archivo de tema en {ruta_qss}")
 
-        /* 7. Estilizar el título del contenedor */
-        QGroupBox::title {
-            subcontrol-origin: margin;
-            subcontrol-position: margin;
-            left: 0px; /* Lo empuja un poco a la derecha */
-            padding: 0 5px; /* Un pequeño margen alrededor del texto */
-            color: #cdd6f4; /* Text */
-            font-weight: bold
-        }
+        #Le avisamos a la gráfica que cambie sus colores
+        if ventana is not None:
+            ventana.vista_cinetica.plot_widget.aplicar_tema_grafica(modo_oscuro)
 
-        /* 8. Estilizar los textos (Etiquetas) */
-        QLabel {
-            color: #cdd6f4 /* Text */
-        }
-    """
+if __name__=="__main__":
 
     #Creamos la aplicación base
     app = QApplication(sys.argv)
 
-    #Aplicamos un estilo base un poco más limpio que el de Windows por defecto.
-    app.setStyleSheet(estilo_catppuccin_mocha)
-    
     #Creamos y mostramos la ventana principal
     ventana = BioreactorSimulatorApp()
+    
+    #Aplicamos el tema la primera vez que se abre la app.
+    aplicar_tema_sistema(app, ventana)
+    #Conectamos una señal para saber el tema de Windows en tiempo real. 
+    app.styleHints().colorSchemeChanged.connect(lambda: aplicar_tema_sistema(app, ventana))
+    
     ventana.show()
 
     #Arrancamos el ciclo de la aplicación.
