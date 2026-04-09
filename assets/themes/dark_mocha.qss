@@ -56,3 +56,57 @@ QGroupBox::title {
 QLabel {
             color: #cdd6f4 /* Text */
         }
+
+/* 9. Barra Lateral */
+#Sidebar {
+            background-color: #11111b; /* Crust */
+            border-right: 1px solid #313244;
+}
+
+#LogoText {
+            font-size: 16pt;
+            font-weight: 900;
+            color: #cba6f7; /* Mauve */
+}
+
+/* 10. Botones del menú principal */
+#MenuButton {
+            background-color: transparent; 
+            color: #a6adc8; /* Subtext0 */
+            text-align: 12px 15px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 11pt;
+}
+
+#MenuButton:hover {
+            background-color: #181825;
+            color: #cdd6f4;
+}
+
+#MenuButton:checked {
+            background-color: #181825;
+            color: #cdd6f4;
+}
+
+/* 11. Submenú */
+QComboBox {
+            background-color: #181825;
+            border: 1px solid #313244;
+            border-radius: 4 px;
+            padding: 6px 10px;
+            color: #cdd6f4;
+            font-weight: bold;
+}
+
+QComboBox::drop-down {
+            border: none;
+            width: 30px;
+}
+
+QComboBox QAbstractItemView {
+            background-color: #181825;
+            border: 1px solid #313244;
+            color: #cdd6f4;
+            selection-background-color: #313244; 
+}

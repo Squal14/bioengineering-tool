@@ -1,5 +1,5 @@
 import sys
-from PySide6.QtWidgets import QApplication, QMainWindow
+from PySide6.QtWidgets import QApplication, QMainWindow, QWidget, QHBoxLayout, QVBoxLayout, QPushButton, QStackedWidget, QLabel
 from PySide6.QtGui import QFontDatabase
 from PySide6.QtCore import Qt 
 
@@ -14,17 +14,59 @@ class BioreactorSimulatorApp(QMainWindow):
         super().__init__()
 
         #Se configura la ventana principal
-        self.setWindowTitle("Simulador de biorreactor")
-        self.resize(1400, 600) #Ancho y alto inicial
+        self.setWindowTitle("Herramienta de Ingeniería Biotecnológica")
+        self.resize(1400, 650) #Ancho y alto inicial
 
-        #1. Instanciamos nuestra vista de cinéticas
+
+        #===========LAYOUT PRINCIPAL DIVIDIDO EN DOS=================
+        widget_central = QWidget()
+        #Establecemos como el componente central de esta ventana
+        self.setCentralWidget(widget_central)
+        layout_principal = QHBoxLayout(widget_central)
+        layout_principal.setContentsMargins(0, 0, 0, 0)
+        layout_principal.setSpacing(0) #Sin espacio entre el menú y el contenido
+
+        #BARRA LATERAL (Menú Principal)
+        self.sidebar = QWidget()
+        self.sidebar.setObjectName("Sidebar") #Identificador para el QSS.
+        self.sidebar.setFixedWidth(260)
+        layout_sidebar = QVBoxLayout(self.sidebar)
+        layout_sidebar.setContentsMargins(15, 25, 15, 20)
+
+        #TÍTULO Y LOGO
+        self.lbl_logo = QLabel("⚙️ BioSim Pro")
+        self.lbl_logo.setObjectName("LogoText")
+        layout_sidebar.addWidget(self.lbl_logo)
+        layout_sidebar.addSpacing(30)
+
+        #BOTÓN 1: CINÉTICAS (Activo)
+        self.btn_cineticas = QPushButton("Cinéticas de crecimiento celular")
+        self.btn_cineticas.setObjectName("MenuButton")
+        self.btn_cineticas.setCheckable(True)
+        self.btn_cineticas.setChecked(True) #Empieza seleccionado
+
+        #BOTÓN 2: DISEÑO DE BIORREACTOR
+        self.btn_reactores = QPushButton("Diseño de biorreactores")
+        self.btn_reactores.setObjectName("MenuButton")
+        self.btn_reactores.setCheckable(True)
+        self.btn_reactores.setChecked(False)
+
+        layout_sidebar.addWidget(self.btn_cineticas)
+        layout_sidebar.addWidget(self.btn_reactores)
+        layout_sidebar.addStretch() #Empuja los botones hacia arriba
+
+        #================ÁREA DE TRABAJO=======================
+        self.contenedor_pantallas = QStackedWidget()
+
+        #SE CREA LA VISTA Y SE INTRODUCE AL MAZO
         self.vista_cinetica = KineticsInputView()
+        self.contenedor_pantallas.addWidget(self.vista_cinetica)
 
-        #2. Establecemos como el componente central de esta ventana
-        self.setCentralWidget(self.vista_cinetica)
+        #SE ENSAMBLA TOD0
+        layout_principal.addWidget(self.sidebar)
+        layout_principal.addWidget(self.contenedor_pantallas)
 
-        #3. Conectamos la señal. 
-        #En realidad debe estar conectado al controlador.
+        #INICIAMOS EL CONTROLADOR PASÁNDOLE LA VISTA
         self.controlador = MainController(self.vista_cinetica)
 
     def prueba_recepcion_datos(self, datos):
@@ -69,7 +111,7 @@ if __name__=="__main__":
 
     #Creamos y mostramos la ventana principal
     ventana = BioreactorSimulatorApp()
-    
+
     #Aplicamos el tema la primera vez que se abre la app.
     aplicar_tema_sistema(app, ventana)
     #Conectamos una señal para saber el tema de Windows en tiempo real. 

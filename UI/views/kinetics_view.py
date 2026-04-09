@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import (QWidget, QVBoxLayout, QFormLayout, QDoubleSpinBox, QPushButton, QGroupBox, QHBoxLayout)
+from PySide6.QtWidgets import (QWidget, QVBoxLayout, QFormLayout, QDoubleSpinBox, QPushButton, QGroupBox, QHBoxLayout, QComboBox)
 from PySide6.QtCore import Signal
 from UI.widgets.plot_widget import BiorreactorPlotWidget 
 
@@ -18,6 +18,19 @@ class KineticsInputView(QWidget):
 
         #=============PANEL IZQUIERDO (CONTROLES) ===============
         left_panel = QVBoxLayout(self)
+
+        #==================SUBMENÚ============================
+        group_modelo = QGroupBox("Selección de Modelo")
+        layout_modelo = QVBoxLayout()
+
+        self.combo_modelo = QComboBox()
+        self.combo_modelo.addItems(["Modelo de Monod", "Luedeking-Piret"])
+
+        layout_modelo.addWidget(self.combo_modelo)
+        group_modelo.setLayout(layout_modelo)
+        left_panel.addWidget(group_modelo)
+
+        #=========NUEVAMENTE PANEL IZQUIERDO===============
         #Marco y título.
         group_box = QGroupBox("Parámetros del cultivo")
         #Formulario para obtener los datos.
@@ -36,7 +49,7 @@ class KineticsInputView(QWidget):
         form_layout.addRow("Constante de saturación (Ks) [g/L]:", self.input_ks)
 
         group_box.setLayout(form_layout)
-        main_layout.addWidget(group_box)
+        left_panel.addWidget(group_box)
 
         #Botón de acción principal
         self.btn_simulate = QPushButton("Ejecutar simulación")
