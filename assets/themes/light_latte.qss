@@ -67,13 +67,15 @@ QLabel {
             font-size: 16pt;
             font-weight: 900;
             color: #2C3E50; /* Azul oscuro */
+            background-color: transparent;
 }
 
 /* 10. Botones del menú principal */
 #MenuButton {
             background-color: transparent; 
             color: #475569; /* gris oscuro */
-            text-align: 12px 15px;
+            text-align: center;
+            padding: 12px 5px;
             border-radius: 6px;
             font-weight: bold;
             font-size: 11pt;
@@ -97,6 +99,8 @@ QComboBox {
             padding: 6px 10px;
             color: #2C3E50;
             font-weight: bold;
+            border-radius: 12px;
+
 }
 
 QComboBox::drop-down {
@@ -109,4 +113,22 @@ QComboBox QAbstractItemView {
             border: 1px solid #CBD5E1;
             color: #2C3E50;
             selection-background-color: #F1F5F9; 
+            border-radius: 12px;
+
+}
+
+/* 12. Botón desplegable*/
+#ToggleButton {
+    background-color: #E2E8F0;
+    color: #2C3E50;
+    font-size: 16pt;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    padding: 0px;
+    margin: 0px;
+}
+
+#ToggleButton:hover {
+    background-color: #CBD5E1; /* Gris al pasar el ratón */
 }

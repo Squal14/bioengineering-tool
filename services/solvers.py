@@ -3,7 +3,7 @@ from scipy.integrate import solve_ivp
 
 def monod_kinetics(t, y, mu_max, Ks, Yxs):
     """Define el sistema de ecuaciones diferenciales para el modelo de monod"""
-    X, S = y #DEsempaquetamos los valores acutales de biomasa y sustrato
+    X, S = y #Desempaquetamos los valores acutales de biomasa y sustrato
 
     #Ecuación de Monod para la tasa específica de crecimiento
     mu = mu_max*(S/(Ks+S))
@@ -13,6 +13,21 @@ def monod_kinetics(t, y, mu_max, Ks, Yxs):
     dSdt = -(1/Yxs)*dXdt
 
     return [dXdt, dSdt]
+
+def modelo_luedeking_piret(y, t, mu_max, Ks, alfa, beta, Yxs):
+    X, S, P = y
+
+    #CINÉTICA DE CRECIMIENTO monod
+    mu = mu_max*S/(Ks+S)
+    dXdt = mu*X
+
+    #CONSUMO DE SUSTRATO
+    dSdt = alfa*dXdt+(beta*X)
+
+    #FORMACIÓN DE PRODUCTO
+    dPdt = alfa*dXdt+(beta*X)
+
+    return [dXdt, dSdt, dPdt]
 
 def resolver_biorreactor(datos_ui, t_final=5.0):
     """toma el diccionario de la UI y resuelve la cinética en el tiempo"""

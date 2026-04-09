@@ -59,7 +59,7 @@ QLabel {
 
 /* 9. Barra Lateral */
 #Sidebar {
-            background-color: #11111b; /* Crust */
+            background-color: #181825; /* */
             border-right: 1px solid #313244;
 }
 
@@ -67,25 +67,28 @@ QLabel {
             font-size: 16pt;
             font-weight: 900;
             color: #cba6f7; /* Mauve */
+            background-color: transparent;
 }
 
 /* 10. Botones del menú principal */
 #MenuButton {
             background-color: transparent; 
             color: #a6adc8; /* Subtext0 */
-            text-align: 12px 15px;
+            text-align: center;
+            padding: 12px 5px;
             border-radius: 6px;
+            border: none;
             font-weight: bold;
             font-size: 11pt;
 }
 
 #MenuButton:hover {
-            background-color: #181825;
+            background-color: #313244;
             color: #cdd6f4;
 }
 
 #MenuButton:checked {
-            background-color: #181825;
+            background-color: #313244;
             color: #cdd6f4;
 }
 
@@ -93,7 +96,7 @@ QLabel {
 QComboBox {
             background-color: #181825;
             border: 1px solid #313244;
-            border-radius: 4 px;
+            border-radius: 12px;
             padding: 6px 10px;
             color: #cdd6f4;
             font-weight: bold;
@@ -109,4 +112,21 @@ QComboBox QAbstractItemView {
             border: 1px solid #313244;
             color: #cdd6f4;
             selection-background-color: #313244; 
+            border-radius: 12px;
+}
+
+/* 12. Botón desplegable*/
+#ToggleButton {
+    background-color: transparent;
+    color: #cdd6f4;
+    font-size: 12pt;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    padding: 0px;
+    margin: 0px;
+}
+
+#ToggleButton:hover {
+    background-color: #313244; /* Gris al pasar el ratón */
 }

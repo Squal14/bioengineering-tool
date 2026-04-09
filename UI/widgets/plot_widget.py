@@ -20,16 +20,21 @@ class BiorreactorPlotWidget(QWidget):
         #2. Pre creamos las líneas vacías
         self.curve_x = self.plot_graph.plot([], [], name="Biomasa (X)")
         self.curve_s = self.plot_graph.plot([], [], name="Sustrato (S)")
-        #self.curve_x = self.plot_graph.plot([], [], pen=pg.mkPen('#a6e3a1', width=3), name="Biomasa (X)") #Catppuccin Green
-        #self.curve_s = self.plot_graph.plot([], [], pen=pg.mkPen('#f38ba8', width=3), name="Sustrato (S)") #Catppuccin Red
+        self.curve_p = self.plot_graph.plot([], [], name="Producto (P)")
 
         #3. Para forzar un tema por defecto
         self.aplicar_tema_grafica(modo_oscuro=True)
 
-    def update_plot(self, t, X, S):
+    def update_plot(self, t, X, S, P=None):
         """Esta función inyecta los nuevos arreglos de SciPy en las líneas dibujadas"""
         self.curve_x.setData(t, X)
         self.curve_s.setData(t, S)
+
+        if P is not None:
+            self.curve_p.setData(t, P)
+            self.curve_p.show()
+        else:
+            self.curve_p.hide()
 
     def aplicar_tema_grafica(self, modo_oscuro=True):
         """Cambia los colores del fondo, los ejes y las líneas según el tema"""
@@ -41,12 +46,14 @@ class BiorreactorPlotWidget(QWidget):
             color_texto = '#cdd6f4' #Text
             color_biomasa = '#a6e3a1' #Green
             color_sustrato = '#f38ba8' #Rojo
+            color_producto = '#fab387' #Peach
         else:
             #Tema Light Latte
             color_fondo = '#eff1f5' #Latte Base
             color_texto = '#4c4f69' #Latte Text
             color_biomasa = '#40a02b' #Latte Green
             color_sustrato = '#d20f39' #Latte Red
+            color_producto = '#df8e1d' #Naranja
         
         #Poner el color al fondo
         self.plot_graph.setBackground(color_fondo)
@@ -70,6 +77,7 @@ class BiorreactorPlotWidget(QWidget):
         #Cambiamos el color de las curvas (si ya existen)
         self.curve_x.setPen(pg.mkPen(color_biomasa, width=3))
         self.curve_s.setPen(pg.mkPen(color_sustrato, width=3))
+        self.curve_p.setPen(pg.mkPen(color_producto, width=3))
 
         #Leyenda
         #PyQtGraph guarda los textos de la leyenda en una lista, se debe iterar para cambiar el color
